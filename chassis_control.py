@@ -41,7 +41,7 @@ class Chassis:
         """
         return speed / (math.pi * self.wheel_diam) * self.pulse_per_cyc * 0.01
 
-    def set_velocity(self, linear_velocity, angular_velocity):
+    def set_velocity(self, lin_vel, dir, angular_velocity):
         """
         Set velocity by polar coordinates
 
@@ -49,13 +49,13 @@ class Chassis:
         :param angular_velocity: the angular velocity in rad/s
         :return:
         """
-        r, theta = linear_velocity
+        r, theta = lin_vel, dir
         theta = math.radians(theta) # convert to radians
 
         # compute x, y, and peripheral velocity
-        v_x = r * math.cos(theta) 
-        v_y = r * math.sin(theta)
-        v_p = angular_velocity * (self.a + self.b)
+        v_x = -r * math.cos(theta) 
+        v_y = -r * math.sin(theta)
+        v_p = -angular_velocity * (self.a + self.b)
 
         # compute the wheel velocities (mm/s)
         v_1 = v_y - v_x + v_p 
